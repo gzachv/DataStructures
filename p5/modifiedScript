@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo "RUN3"
+java TestHash 439 323232 10.0 60 0 filename
+echo "RUN4"
+java TestHash 439 323232 10.0 61 0 filename
+echo "RUN7"
+java TestHash 439 323232 0.8 60 0 filename
+echo "RUN8"
+java TestHash 439 323232 0.8 61 0 filename

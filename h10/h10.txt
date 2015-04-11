@@ -1,0 +1,23 @@
+
+1.Given the following graph with nodes having character labels and edges having non-negative integer weights:
+
+Trace Dijkstra's algorithm, starting at node G, by filling in the remaining rows in the table below. Each row in the table represents one iteration of the of the algorithm, so use as many or as few rows as needed for the algorithm to complete.
+
+Visited Vertexes and their
+shortest distances from start		Priority Queue's items
+(listed in increasing order)
+-					(0,G)
+G-0					(4,A), (11,R), (33,H)
+G-0,A-4					(10,P), (11,R), (33,H)
+G-0,A-4,P-10				(11,R), (24, H), (30,S)
+G-0,A-4,P-10,R-11			(12, H), (14,S)
+G-0,A-4,P-10,R-11,H-24			(14,S)
+G-0,A-4,P-10,R-11,H-24,S-30
+ 	 	 
+
+2. Given the following directed acyclic graph:
+
+Give two different topological orderings of the graph nodes
+AFEDCB
+FEADCB
+

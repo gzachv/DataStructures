@@ -1,0 +1,139 @@
+Gustavo Zach Vargas
+9030155247
+CS 367 lecture 2
+h6
+
+1. Assume that general trees are implemented using a Treenode<T> class that includes the following fields and methods:
+
+// fields
+private T data;
+private List<Treenode<T>> children;
+
+// methods
+public T getData() { return data; }
+public ListADT<Treenode<T>> getChildren() { return children; }
+Use an iterator to access the children in the list returned by the method getChildren (recall we do this for efficiency if the list is a chain of nodes).
+
+For this question, you'll write the countLeaves method whose header is given below.
+
+public int countLeaves( Treenode<T> tree )
+The method should return the number of leaf nodes in the general tree. The method is recursively defined as:
+
+The number of leaf nodes in an empty tree is 0.
+The number of leaf nodes in a tree with one node is 1.
+The number of leaf nodes in a tree with more than one node is the sum of the number of leaf nodes in the subtrees rooted at the node's children.
+
+public int countLeaves( Treenode<T> tree ){
+	if(tree == null) return 0;
+
+	ListADT<Treenode<T>> children = tree.getChildren();
+
+	if(children.isEmpty()) return 1;
+
+	Iterator<Treenode<T>> iter = children.iterator();
+
+	//stores a count of the number of leaf nodes	
+	int ret = 0;	
+
+	while(iter.hasNext()){
+		ret += countLeaves(iter.next());
+	}
+	
+	return ret;
+}
+
+
+2. Assume that binary trees are implemented using a BinaryTreenode<T> class that includes the following fields and methods:
+
+// fields
+private T data;
+private BinaryTreenode<T> left, right;
+
+// methods
+public T getData()                        { return data; }
+public BinaryTreenode<T> getLeft()        { return left; }
+public BinaryTreenode<T> getRight()       { return right; }
+public void setLeft(BinaryTreenode<T> l)  { left  = l; }
+public void setRight(BinaryTreenode<T> r) { right = r; }
+Assume also that items in binary tree can be compared with the equals method. Write the countMatches method whose header is given below.
+
+public int countMatches( BinaryTreenode<T> tree, T item )
+The method should return the number of items in the binary tree that are equal to the given item, 0 if the tree is empty, or -1 if item is null.
+
+Part A: First, complete the English descriptions of the base and recursive cases, like what was given above for Question 1.
+
+The count of matches is 0 in an empty tree is 0.
+The count of matches is -1 if … the item passed as a parameter is null.
+The count of matches in a tree with one node is ... 1 if the data in the current root matches item otherwise return 0.
+The count of matches in a tree with more than one node is ... 
+					 the sum of the number of matches in the left and right subtrees of the node passed as a parameter(subtrees rooted at left and right children).
+
+Part B: Now write the countMatches method.
+
+public int countMatches( BinaryTreenode<T> tree, T item ){
+	if(tree == null) return 0;
+
+	if(item == null) return -1;
+
+	if(tree.getLeft() == null && tree.getRight() == null)
+		if(tree.getData().equals(item)) return 1;
+
+		else{
+			return 0;
+		}
+	}
+
+	int matches = 0;
+	
+	if(tree.getData().equals(item)){
+		matches++;
+	}
+
+	return matches += countMatches(tree.getLeft(), item) + countMatches(tree.getRight(), item);
+}
+
+
+3. Assume that the binary trees for this question use the same BinaryTreenode<T> class as above with items that are comparable (i.e., T is type Comparable).
+
+Write the findSmallest method whose header is given below.
+
+public T findSmallest( BinaryTreenode<T> tree )
+The method should return the smallest item in the binary tree.
+Part A: First, complete the English descriptions of the base and recursive cases, like what was given above for Question 1.
+
+The smallest item in an empty tree is null.
+The smallest item in a tree with one node is ... the data from the one node.
+The smallest item in a tree with more than one node is ... the smallest node from the left and right subtrees of the current root.
+
+
+Part B: Now write the findSmallest method.
+
+public T findSmallest( BinaryTreenode<T> tree ){
+	if(tree == null) return null;
+
+	if(tree.getLeft() == null && tree.getRight() == null) return tree.getData();
+
+	T smallest = tree.getData();
+
+	//return the value of the data in the current node if is is smaller than the smallest of its left and right subtree
+	if(smallest < findSmallest(tree.getLeft) && smallest < findSmallest(tree.getRight()) return smallest.getData();
+
+	//if the smaller is in one of the subtrees (not in current root) then find the smallest of both subtrees and return that node's data
+	return (findSmallest(tree.getLeft) < findSmallest(tree.getRight())? findSmallest(tree.getLeft).getData() : findSmallest(tree.getRight().getData();	
+}
+
+Part C: Now assume that the tree is a binary search tree. Rewrite your code from part B so that it efficiently finds and returns the smallest item in such a tree.
+
+The smallest item in an empty tree is null.
+The smallest item in a tree with one node is ... the data from the one node.
+The smallest item in a tree with more than one node is ... the smallest node from the left subtree of the current root.
+
+
+public T findSmallest( BinaryTreenode<T> tree ){
+	if(tree == null) return null;
+
+	if(tree.getLeft() == null) return tree.getData();
+
+	return findSmallest(tree.getLeft()).getData();
+}
+

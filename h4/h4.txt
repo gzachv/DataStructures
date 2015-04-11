@@ -1,0 +1,144 @@
+Gustavo Zach Vargas
+9030155247
+h4
+
+
+Assume that a LinkedList class has been implemented as a doubly-linked chain of nodes with a header node. The class has the following fields:
+
+private DblListnode items;     //references the header node
+private int numItems;
+
+LinkedList uses the class, DblListnode, that includes the public methods getData, setData, getPrev, setPrev, getNext, and setNext.
+
+1.    Below is an implementation of a new method, moveToMiddle, for the LinkedList class. This method moves the object at the specified position to the middle of the list.
+
+    public void moveToMiddle ( int position ) {
+        this.add(this.size()/2, this.remove(position)));
+    }
+
+    Note that the division above is integer division, and recall that if the positions are invalid an IndexOutOfBoundsException is thrown.
+
+    For this homework, complete a second version of moveToMiddle that functions that same as the code above. However, your version directly changes the chain of nodes by unlinking the node to be moved and re-linking it into the middle of the list.
+
+    Be sure that your code works for all cases such as when the list is empty, has just one object, or has more than one object. 
+Also consider when the item to be moved is already in the middle, is at the front, or is at the end of the list.
+
+	/*Moves the node from a specified position to the middle of the list.
+	 * @param position of the node to be moved to the middle of the list
+	 */
+	public void MoveToMiddle(int position){
+
+		//if position is out of bounds of the llist print message and
+		//do nothing
+		if(position < 0 || position >= numItems){
+			System.out.println("please enter a valid index");
+			return;
+		}
+
+		//if the list is empty, do not add and print a message
+		if(numItems == 0){
+			System.out.println("The List is empty: no middle");
+			return;
+		}
+
+		//if the list only has one item, do not add and print a
+		//message
+		if(numItems == 1){
+			System.out.println("The List only has one item: no
+			middle");
+
+			return;
+		}
+
+		//if the item is already in the middle, do nothing and print
+		//message
+		if(position == numItems/2){
+			System.out.println("The item selected is in the middle
+			already");
+
+			return;
+		}
+
+		
+		//tmp stores value of node to be moved, must move tmp to this
+		//node
+		DblListnode<E> tmp = items;
+		for(int i = 0; i < position; i++){
+			tmp = tmp.getNext();
+		}
+
+		DblListnode<E> middle = items;
+		for(int i = 0; i < numItems/2; i++){
+			middle = middle.getNext();
+		}
+
+		
+		//rearrange pointers
+
+		//if the position is before the middle
+		if(position < numItems/2){
+			//set prev pointer of middle.getNext() to tmp
+			middle.getNext().setPrev(tmp);
+
+			//if position refers to the first node, set items
+			//pointers 
+			if(position == 0){
+				items = items.getNext();
+			}
+			else{
+				tmp.getPrev().setNext(tmp.getNext());
+			}
+			
+			tmp.getNext().setPrev(tmp.getPrev());
+			
+			tmp.setNext(middle.getNext());
+			
+			tmp.setPrev(middle);
+
+			middle.setNext(tmp);
+		}
+
+		//rearrange the pointers if position if after the middle of
+		//the list
+		else{
+		
+			//if the position is the last node in the list
+			if(tmp.getNext() == null){
+				
+				tmp.getPrev().setNext(null);
+				
+				tmp.setPrev(middle.getPrev());
+				
+				tmp.setNext(middle);
+				
+				middle.getPrev().setNext(tmp);
+				
+				middle.setPrev(tmp);
+			}
+			else{
+				tmp.getNext().setPrev(tmp.getPrev());
+				
+				tmp.getPrev().setNext(tmp.getNext());
+				
+				tmp.setNext(middle);
+				
+				middle.getPrev().setNext(tmp);
+				
+				tmp.setPrev(middle.getPrev());
+				
+				middle.setPrev(tmp);
+			}
+
+		}
+	}
+
+
+
+2.    Give the worst-case time complexity for your method above in terms of N, the problem size. Identify what aspect of the method characterizes the problem size. Write a brief justification for the time complexity you give. Include in your justification assumptions you make about the complexity of any methods that are called by your implementation.
+
+The complexity of the add to middle method is O(N). This is assuming that
+changing the values of a list node (next and prev fields) are constant time.
+The only part of the method that is not O(1) are the two for loops. One for
+loop is the first for loop traverses the list to get to the given position in
+the worst case this is O(M) where M is the position given. The second for
+loop is O(N) where N is the length of the list beacause it traverses through half the list (N/2) and the lower order term is dropped. The order then is whichever is larger N or M. However, M must be less than or equal to N because it is a position in the list. Thus the overall complexity of the method is O(N).

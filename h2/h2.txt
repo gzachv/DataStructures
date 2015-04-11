@@ -1,0 +1,116 @@
+1.Consider the following pseudo-code:
+void main( ) {
+    println("main begin");
+    try {
+        a();
+    } catch (Ex1 ex) {
+        println("main caught Ex1");
+        throw new Ex3();
+    } catch (Ex2 ex) {
+        println("main caught Ex2");
+    } catch (Ex3 ex) {
+        println("main caught Ex3");
+    } finally {
+        println("main finally");
+    }
+    println("main end");
+}
+
+void a( ) {
+    println("a begin");
+    try {
+        b();
+    } catch (Ex2 ex) {
+        println("a caught Ex2");
+    } catch (Ex3 ex) {
+        println("a caught Ex3");
+    }
+    println("a end");
+}
+
+void b( ) {
+    println("b begin");
+    try {
+        if (q1 == true) throw new Ex1();
+        if (q2 == true) throw new Ex2();
+        if (q3 == true) throw new Ex3();
+    } catch (Ex3 ex) {
+        println("b caught Ex3");
+    } finally {
+        println("b finally");
+    }
+    println("b end");
+}
+For the each part below determine the complete output that would be output if the pseudo-code above was run with the values of the q variables as specified below. Assume the exception classes Ex1, Ex2, and Ex3 each extend RuntimeException. If an exception is passed out of main, show the output of the runtime environment as "Program terminated due to Exception ExN  ", where N is the particular exception number.
+
+a.
+What would be output if q1 is true and the other variables are false?
+main begin
+a begin
+b begin
+b finally
+main caught EX1
+main finally
+main end
+
+b.
+What would be output if q2 is true and the other variables are false?
+main begin
+a begin
+b begin
+b finally
+a caught EX2
+a end
+main finally
+main end
+
+c.
+What would be output if q3 is true and the other variables are false?
+main begin
+a begin
+b begin
+b caught EX3
+b finally
+b end
+a end
+main finally
+main end
+
+d.
+How would the code need to be modified if exception type Ex1 were a checked exception?
+The method b and method a would need to have 'throws Ex1' in its method header because it is throwing a checked exception and thus must be handled.
+
+2.Complete the forceAdd method below so that it uses exception handling in its body in the following way: if the call to add at the given position pos throws an exception, it should be resolved by adding item to the appropriate end of the list. For example, if pos was -1 then the item would be added to the front end, and if pos was too large then the item would be added to the rear end of the list. Assume your method will be added to the ArrayList<E> class.
+
+public void forceAdd(int pos, E item) {
+	try{
+  		add(pos, item);
+
+	}
+	catch(ArrayIndexOutOfBoundsException e){
+		if(pos < 0){
+			add(0,item);
+		}
+		else{ 
+			add(item);
+		} 
+	}
+}
+
+
+3.Consider the following method:
+public static void testIt(ArrayList<Integer> L) {
+    int size = L.size();
+    for (int i = 0; i < size; i++) {
+        L.forceAdd( -size, new Integer(i) );
+    }
+}
+Taking into consideration your forceAdd method from the previous problem, give the worst-case time 
+complexity for the testIt method above, in terms of N, the problem size. Identify what aspect of 
+the method characterizes the problem size. Write a brief justification for the time complexity you give. Include in your justification assumptions you make about the complexity of any methods that are called.
+ Assume that the add method is implemented as described for the SimpleArrayList in the online readings (Lists).
+
+In this case the problem size, N, refers to the length of the ArrayList L. When N is defined in this manner and the add method is assumed to be of constant complexity O(1), the complexity of the entire method can be determined to be linear O(N).
+This is because the only complexity called above constant is the for loop in the test method. This loop is linear because in N, the length of the ArrayList L is increased the length of time to execute the for loop would also increase.
+One can prove this by determining the complexity of the entire method test incrementally and looking at the greatest  complexity. In this case the first line assigning the variable size is a somple operation with constant complexity. Then the for loop, as described above is linear. The forceAdd method called in the loop is also linear thus the overall complexity of the code above is linear.
+

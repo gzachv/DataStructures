@@ -1,0 +1,57 @@
+1. Assume you are comparing two different algorithms to solve some problem and have determined the worst-case time equations for each:
+        Algorithm 1: T(N) = 100N^2 + 3N + 11
+        Algorithm 2: T(N) = 5N^3 + 8log(2)N
+
+        What is the time complexity for each algorithm?
+        Should the algorithm with the lower order of complexity always be used? Briefly explain why/why not?
+
+Algorithm 1 is O(n^2) and algorithm 2 is O(N^3). The algorithm with the lower order of complexity should not always be used. For some applications it is more important that the algorithm is fast. If algorithm 2 is less complex to code or if it has a better complexity than algorithm 1 for its average case complexity, then is some circumstances(low problem size or if worst case is not likely to occur) algorithm 2 would be better.
+
+
+
+2.    Assume two ArrayLists have items added to them so that L1 has N items and L2 has M items, and a third list L3 is empty. What is the worst-case time complexity for each code fragment below? Assume the cost of expanding an array is O(1). Express the complexity using "Big-O" notation.
+
+    A.  if (L1.size() > L2.size()) {
+           L2.add(obj);
+        }
+        else {
+           L1.add(0,obj);
+        }
+		
+A has complexity O(N) because if L1.size() > L2.size() is not true then an element must be added at the begining of the array(must shift over all items-depends on how many items in the array).
+
+    B.  if (L1.contains(obj)) {
+           L1.remove(obj);
+        }
+        L3.add(obj);
+
+B has complexity O(N) in the worst case an element must be removed causing all items to be shifted to fill the space- depends on number of items in list.
+
+    C.  for (int k = 0; k < L1.size(); k++) {
+            L2.add(L1.remove(k));
+        }
+
+C has complexity O(N^2) because the remove method is complexity O(N) and the for loop is also complexity O(N). The remove is in the for loop thus the overall complexity is O(N*N) or O(N^2).
+
+    D.  for (int k = L2.size() - 1; k >= 0; k--) {
+            L3.add(0, L2.remove(k));
+        }
+
+D has complexity O(N^3) because the remove method is complexity O(N), the add at position 0 is O(N) and the for loop is also complexity O(N). The remove and the add are in the for loop thus the overall complexity is O(N*N*N) or O(N^3).
+
+
+ 3.   Suppose that an array is used to represent a polynomial (in x) in the following way: each index i is used to store the coefficient for xi. For example, the polynomial 7 + 2x^2 + 3x^5 would be represented as the array [ 7, 0, 2, 0, 0, 3 ]. Note: we will assume that all coefficients are integers and that all powers of x are non-negative integers.
+
+       A. Complete the addPoly method which creates a new polynomial representing the sum of the two 	polynomials given as parameters. 
+
+(For example, if poly1 represents the polynomial 3 + 2x^2 and poly2 represents the polynomial 5 + 4x, then the addPoly returns the array representation of the polynomial 8 + 4x + 2x^2) 
+
+The method header is provided below. Assume that BadPolynomialException is a checked exception with a no-argument constructor.
+
+        public static int[] addPoly(int[] poly1, int[] poly2) thows BadPolynomialException {
+        //If poly1 or poly2 (or both) are null, throw a BadPolynomialException
+        //Otherwise return a new polynomial (represented as an array as described above)
+        //containing the sum of poly1 and poly2
+
+ B.       Give the worst-case time complexity for your method above, in terms of the problem size. Identify what aspect(s) of the method characterizes the problem size. Write a brief justification for the time complexity you give. Include in your justification assumptions you make about the complexity of any methods that are called while creating the sum.
+

@@ -1,0 +1,122 @@
+Gustavo Zach Vargas
+9030155247
+Cs367 Skrentny HW1
+
+
+Questions
+1. Consider the following code fragment that is intended to remove all of the items in a ListADTobject, named myList. To find out if it works, trace the code and show the contents of the list at the end of each iteration of the loop's execution. Assume myList initially containsStrings in this order: ["toad", "coat", "worm", "maple", "coat", "garage"].
+
+for (int i = 0; i < myList.size(); i++){
+     myList.remove(i); } 
+
+iterations (i)			contents of myList after iteration
+0	["coat", "worm", "maple", "coat", "garage"]
+1	["coat", "maple", "coat", "garage"]
+2	["coat", "maple", "garage"]
+3	
+
+
+
+
+2. Briefly describe (in a sentence or two) what the following code fragment does. Assume src and dst are ListADTs initially containing an arbitrary number of items.
+
+while (!src.isEmpty()) {
+
+	dst.add(src.get(0));   
+ 
+ 	src.remove(0);
+} 
+
+This code will move all items from src and add them, in order, to dst. This code results in src being emptied and dst filled with the original contents of src.
+
+
+3.
+•	The Iterator<E> interface is as discussed in lecture.
+•	The ArrayListIterator<E> class implements the Iterator<E> interface.
+•	The ListADT<E> interface is as discussed in lecture including an iterator() method that returns an Iterator<E>.
+•	The ArrayList<E> class implements the ListADT<E> interface.
+•	The BadListException class is implemented as a checked exception with a zero-argument constructor.
+•	The items in a list can be compared with the equals method.
+
+Complete the Java method specified below, making use of iterators. To receive full credit, your solution:
+•	must explicitly use iterators for traversing lists
+•	must not use the contains method
+•	must not modify the contents of any of the parameters
+// This static method is implemented in a main class. 
+
+public static ListADT<String> union( ListADT<String> L1, ListADT<String> L2 ) throws BadListException {
+// If L1 or L2 (or both L1 and L2) is null, throw a BadListException. 
+// If L1 and L2 are both empty, return a new empty list. 
+// If L1 is empty (but not L2), return a new list containing the objects in L2. 
+// If L2 is empty (but not L1), return a new list containing the objects in L1. 
+// Otherwise create and return a new list that contains the objects in L1 and 
+//   in L2 with all duplicates removed.  (Note: the List returned is not in any 
+//   particular order.) 
+//   Example:   L1: A,B,C      L2: D,E,F        result: A,B,C,D,E,F 
+//   Example:   L1: A,B,C,D    L2: F,D,B,E      result: A,B,C,D,F,E 
+//   Example:   L1: A,B,C,D    L2: D,A,B,C      result: A,B,C,D 
+//
+// Preconditions:  
+// L1 contains no duplicate items (no item in L1 occurs more than once in L1) and  
+// L2 contains no duplicate items (no item in L2 occurs more than once in L2)
+
+
+	if(L1 == null || L2 == null){
+		throw new BadListException();
+	}
+	
+	else if(L1.isEmpty() && L2.isEmpty()){
+		return new ListADT<String>();
+	}
+
+	else if(L1.isEmpty() && !L2.isEmpty()){
+		ListADT<String> ret = new ListADT<String>();
+
+		for(int i=0; i< L2.size(); i++) {
+			ret.add(L2.get(i));   
+		}
+
+		return ret;
+	}
+
+	else if(L2.isEmpty() && !L1.isEmpty()){
+		ListADT<String> ret = new ListADT<String>();
+
+		for(int i=0; i< L1.size(); i++) {
+			ret.add(L1.get(i));   
+		}
+		
+		return ret;
+	}
+
+	else{
+		Iterator<String> iter = L1.iterator();
+
+		String temp;
+		while(iter.hasNext()){
+			temp = iter.next();
+
+			for(int i=0; i< L2.size(); i++){
+				if(temp.equals(L2.get(i))){
+					L2.remove(i);
+				}
+			}
+		}
+
+		ListADT<String> ret = new ListADT<String>();
+	
+		for(int i=0; i< L1.size(); i++) {
+			ret.add(L1.get(i));   
+		}
+
+		for(int i=0; i< L2.size(); i++) {
+			ret.add(L2.get(i));   
+		}
+
+		return ret;
+	}
+}
+
+		
+		
+
